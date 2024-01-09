@@ -340,6 +340,7 @@ void udfBuild(const std::string& _udfFile, setupAide &options)
           std::map<std::string, std::string> pluginTable =
           {
             {"nekrs_tavg_hpp_"        , "tavg::buildKernel"},
+	    {"nekrs_budgets_hpp_"        , "budgets::buildKernel"},
             {"nekrs_RANSktau_hpp_"    , "RANSktau::buildKernel"},
             {"nekrs_lowMach_hpp_"     , "lowMach::buildKernel"},
             {"nekrs_velRecycling_hpp_", "velRecycling::buildKernel"},

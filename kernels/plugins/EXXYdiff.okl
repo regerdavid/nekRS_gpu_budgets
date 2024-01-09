@@ -1,0 +1,25 @@
+@kernel void EXXYdiff(const dlong N,
+                 const dlong offset,
+                 const dlong Nfields_X,
+                 const dlong Nfields_Y,
+                 const dfloat a,
+                 const dfloat b,
+                 @restrict const dfloat* X,
+                 @restrict const dfloat* Y,
+                 @restrict dfloat* OUT)
+{
+  for(dlong n = 0; n < N; ++n; @tile(p_blockSize,@outer,@inner))
+    if(n < N) {
+      for(dlong fld_Y = 0; fld_Y < Nfields_Y; ++fld_Y) {
+        for(dlong fld_X = 0; fld_X < Nfields_X; ++fld_X) {
+          const dlong id_X = n + fld_X * offset;
+          const dlong id_Y = n + fld_Y * offset;
+          const dlong id = n + fld_Y * Nfields_X * offset + fld_X * offset;
+          const dfloat xn = X[id_X];
+          const dfloat yn = Y[id_Y];
+          OUT[id] = a * OUT[id] + b * xn * xn * yn;
+        }
+      }
+    }
+}
+

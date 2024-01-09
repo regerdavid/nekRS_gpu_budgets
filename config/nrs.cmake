@@ -56,6 +56,7 @@ set(SRC
     src/linAlg/matrixTranspose.cpp
     src/linAlg/matrixRightSolve.cpp
     src/plugins/tavg.cpp
+    src/plugins/budgets.cpp
     src/plugins/velRecycling.cpp
     src/plugins/RANSktau.cpp
     src/plugins/lowMach.cpp

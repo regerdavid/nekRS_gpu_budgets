@@ -1,0 +1,27 @@
+@kernel void EXYZsame(const dlong N,
+                 const dlong offset,
+                 const dlong Nfields_XY,
+                 const dlong Nfields_Z,
+                 const dfloat a,
+                 const dfloat b,
+                 @restrict const dfloat* X,
+                 @restrict const dfloat* Y,
+                 @restrict const dfloat* Z,
+                 @restrict dfloat* OUT)
+{
+  for(dlong n = 0; n < N; ++n; @tile(p_blockSize,@outer,@inner))
+    if(n < N) {
+      for(dlong fld_Z = 0; fld_Z < Nfields_Z; ++fld_Z) {
+        for(dlong fld_XY = 0; fld_XY < Nfields_XY; ++fld_XY) {
+          const dlong id_XY = n + fld_XY * offset;
+          const dlong id_Z = n + fld_Z * offset;
+          const dlong id = n + fld_Z * Nfields_XY * offset + fld_XY * offset;
+          const dfloat xn = X[id_XY];
+          const dfloat yn = Y[id_XY];
+          const dfloat zn = Z[id_Z];
+          OUT[id] = a * OUT[id] + b * xn * yn * zn;
+        }
+      }
+    }
+}
+
